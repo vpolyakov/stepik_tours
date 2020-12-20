@@ -55,6 +55,8 @@ coverage.xml
 .static/
 .media/
 local_settings.py
+db.sqlite3
+db.sqlite3-journal
 
 # Flask stuff:
 instance/
@@ -120,5 +122,4 @@ setup.cfg
 
 *.sqlite3
 
-# pycharm stuff
-.idea/
+.flake8
