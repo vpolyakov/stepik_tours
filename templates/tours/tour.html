@@ -8,7 +8,7 @@
     <section class="mt-3 pb-5">
       <h1 class="display-3 mt-4">{{ tour.title }}<br>{{ tour.stars|star_multiply }}</h1>
       <!-- HERO -->
-      <p class="lead">{{ tour.country }} {{ departures|from_depart:tour.departure }} на {{ tour.nights }} ночей</p>
+      <p class="lead">{{ tour.country }} {{ depart_city_ru }} на {{ tour.nights }} ночей</p>
       <img src="{{ tour.picture }}" class="w-75" alt="Отель {{ tour.title }}">
       <p class="my-4 w-75">{{ tour.description }}</p>
       <a href="#" class="btn btn-success btn-lg">Купить тур за {{ tour.price }}</a>

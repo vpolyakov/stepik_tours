@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load tour_extras %}
 
-{% block title %}Туры {{ departures|from_depart:depart_city }} - {% endblock %}
+{% block title %}Туры {{ depart_city_ru }} - {% endblock %}
 
 {% block content %}
   <main class="container mt-3">
-    <h1 class="display-5 mt-4">Летим {{ departures|from_depart:depart_city }}</h1>
+    <h1 class="display-5 mt-4">Летим {{ depart_city_ru }}</h1>
     <p class="mb-4">Найдено {{ tours|length }} туров, от {{ tours|tour_min:'price' }} до {{ tours|tour_max:'price' }} и от {{ tours|tour_min:'nights' }} ночей до {{ tours|tour_max:'nights' }} ночей</p>
     <!-- CARDS -->
     <div class="row mt-5">{% for id, tour in tours.items %}

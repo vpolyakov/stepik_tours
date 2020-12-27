@@ -15,12 +15,6 @@ def star_multiply(value, arg: str = '★', sep: str = ' ') -> str:
     return sep.join(arg * int(value))
 
 
-@register.filter(name='from_depart')
-def get_depart_city(depart_dict, city_id) -> str:
-    from_city = depart_dict[city_id][0].lower() + depart_dict[city_id][1:]
-    return from_city
-
-
 @register.filter
 def tour_min(dictionary, key):
     return min([dictionary[i][key] for i in dictionary])

@@ -4,7 +4,13 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseServerEr
 from django.shortcuts import render
 from django.views import View
 
-from tours.data import tours
+from tours.data import departures, tours
+
+TOUR_NUMBER_MAIN_PAGE = 6
+
+
+def get_depart_city_runame(depart_dict, city_id) -> str:
+    return depart_dict[city_id][0].lower() + depart_dict[city_id][1:]
 
 
 # Create your views here.
@@ -20,8 +26,8 @@ def custom_handler500(request) -> HttpResponse:
 class MainView(View):
 
     def get(self, request) -> HttpResponse:
-        sample_keys = sample(tours.keys(), k=6)
-        tours_sample = {key: value for key, value in tours.items() if key in sample_keys}
+        tour_id_sample = sample(tours.keys(), k=TOUR_NUMBER_MAIN_PAGE)
+        tours_sample = {tour_id: tours[tour_id] for tour_id in tour_id_sample}
 
         context = {'tours': tours_sample}
         return render(request, 'index.html', context=context)
@@ -30,9 +36,15 @@ class MainView(View):
 class DepartureView(View):
 
     def get(self, request, departure: str) -> HttpResponse:
-        d_tours = {key: value for key, value in tours.items() if value["departure"] == departure}
 
-        context = {'tours': d_tours, 'depart_city': departure}
+        if departure not in departures.keys():
+            return HttpResponseNotFound('<h1>404<h1><h2>Такого места отправления нет!</h2>')
+
+        d_tours = {tour_id: tour for tour_id, tour in tours.items() if tour["departure"] == departure}
+
+        depart_city_ru = get_depart_city_runame(departures, departure)
+
+        context = {'tours': d_tours, 'depart_city': departure, 'depart_city_ru': depart_city_ru}
         return render(request, 'tours/departure.html', context=context)
 
 
@@ -40,5 +52,9 @@ class TourView(View):
 
     def get(self, request, id: int) -> HttpResponse:
 
-        context = {'tour': tours[id]}
+        if id not in tours.keys():
+            return HttpResponseNotFound('<h1>404<h1><h2>Такого тура нет!</h2>')
+
+        tour = tours[id]
+        context = {'tour': tour, 'depart_city_ru': get_depart_city_runame(departures, tour['departure'])}
         return render(request, 'tours/tour.html', context=context)
